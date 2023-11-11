@@ -37,6 +37,8 @@ ChatBot::~ChatBot()
     // deallocate heap memory
     if(_image != NULL) // Attention: wxWidgets used NULL and not nullptr
     {
+        //TASK 0 : ERROR CUS IT CALLED MORE THAN 1 TIME IT HAPPENS CUS WE DELETED IT IN GRAPHNODE.CPP AND CHAT
+        //LOGIC.CPP SO WE COMMENTED ITS LINES
         delete _image;
         _image = NULL;
     }
@@ -44,6 +46,58 @@ ChatBot::~ChatBot()
 
 //// STUDENT CODE
 ////
+ChatBot::ChatBot(const ChatBot& src)
+{
+    std::cout << "ChatBot Copy Constructor" <<'\n';
+    //not owned by me so its ok to shallow copy
+    _currentNode = src._currentNode;
+    _rootNode = src._rootNode;
+    _chatLogic = src._chatLogic;
+    //owned by me
+    _image = new wxBitmap{*src._image};
+}
+ChatBot& ChatBot::operator = (const ChatBot& src)
+{
+    std::cout << "ChatBot Copy Assignment Operator" << '\n';
+    if(this == &src) return *this;
+    _currentNode = src._currentNode;
+    _rootNode = src._rootNode;
+    _chatLogic = src._chatLogic;
+    delete _image;
+    _image = new wxBitmap{*src._image};
+    return *this;
+}
+ChatBot:: ChatBot(ChatBot && src)
+{
+    std::cout<<"ChatBot Move Constructor" << '\n';
+    _currentNode = src._currentNode;
+    _rootNode = src._rootNode;
+    _chatLogic = src._chatLogic;
+    _image =src._image;
+    src._currentNode = nullptr;
+    src._rootNode = nullptr;
+    src._chatLogic = nullptr;
+    src._image= nullptr;
+}
+ChatBot& ChatBot::operator = (ChatBot&& src)
+{
+   std::cout<<"ChatBot Move Assignment Operator" <<'\n';
+   if(this == &src) return *this;
+   // Delete existing resources in the target object
+    delete _image;
+   //Moving data from source to destination
+   _currentNode = src._currentNode;
+    _rootNode = src._rootNode;
+    _chatLogic = src._chatLogic;
+    _image =src._image;
+   //Steal data by nulling them
+    src._currentNode = nullptr;
+    src._rootNode = nullptr;
+    src._chatLogic = nullptr;
+    src._image= nullptr;
+    
+    return *this;
+}
 
 ////
 //// EOF STUDENT CODE

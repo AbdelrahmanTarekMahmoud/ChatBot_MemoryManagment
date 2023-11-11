@@ -29,7 +29,11 @@ public:
 
     //// STUDENT CODE
     ////
-
+    ChatBot(const ChatBot& src); // CopyCons
+    ChatBot& operator = (const ChatBot& src); // copy assignment operator
+    ChatBot(ChatBot && src);// MoveCons
+    ChatBot& operator = (ChatBot&& src); // move assignment operator
+   
     ////
     //// EOF STUDENT CODE
 

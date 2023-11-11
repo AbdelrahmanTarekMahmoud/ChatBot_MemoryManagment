@@ -1,6 +1,6 @@
 #ifndef CHATGUI_H_
 #define CHATGUI_H_
-
+#include<memory> // Task1
 #include <wx/wx.h>
 
 class ChatLogic; // forward declaration
@@ -15,9 +15,9 @@ private:
 
     //// STUDENT CODE
     ////
-
-    ChatLogic *_chatLogic;
-
+    //Task 1 : Make chatlogic instance a execlusive resource for ChatBotPanelDialog CLass
+    //ChatLogic *_chatLogic;
+    std::unique_ptr<ChatLogic> _chatLogic;
     ////
     //// EOF STUDENT CODE
 
@@ -27,7 +27,7 @@ public:
     ~ChatBotPanelDialog();
 
     // getter / setter
-    ChatLogic *GetChatLogicHandle() { return _chatLogic; }
+    ChatLogic *GetChatLogicHandle() { return _chatLogic.get(); } // task 1 convert from smart ptr to raw one
 
     // events
     void paintEvent(wxPaintEvent &evt);
